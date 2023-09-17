@@ -13,3 +13,7 @@
   src: url(assets/fonts/CircularStd-Bold.woff) format("woff");
 }
 
+:root {
+  background-color: #5955b3;
+  font-size: 16px;
+}

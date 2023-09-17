@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
-import NavBar from "../components/NavBar";
+import SideNav from "../components/SideNav";
 import AppRoutes from "../routes/AppRoutes";
 import styles from "../styles";
-const { color, fonts } = styles;
+
+const { colors, fonts } = styles;
 
 const AppRoot = () => {
   return (
     <Holder>
-      <NavBar />
+      <SideNav />
       <RoutesHolder>
         <AppRoutes />
       </RoutesHolder>
@@ -15,18 +16,20 @@ const AppRoot = () => {
   );
 };
 
+// ----------------
+// STYLED COMPONENT
+// ----------------
 const Holder = styled.div`
   height: 100vh;
-  width: 100vw;
-  background-color: ${color.violet};
   ${fonts.thin};
   display: grid;
-  grid-template-columns: 15em auto;
+  grid-template-columns: 19em auto;
 `;
 
 const RoutesHolder = styled.div`
-  background-color: ${color.white};
+  background-color: ${colors.white};
   border-radius: 2em;
-  margin: 1em;
+  box-shadow: 1px 1px 7px #00000041;
+  margin: 1.1em 1em;
 `;
 export default AppRoot;

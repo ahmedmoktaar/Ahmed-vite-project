@@ -1,6 +1,6 @@
-import color from "./color";
+import colors from "./colors";
 import fonts from "./fonts";
 
-const index = { color, fonts };
+const index = { colors, fonts };
 
 export default index;
