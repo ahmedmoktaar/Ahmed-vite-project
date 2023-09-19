@@ -1,40 +1,64 @@
 import styled from "@emotion/styled";
 import SVG from "../assets/svg";
 import index from "../styles";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
+// ----------------
+// style varibales
+// ----------------
 const { colors, fonts } = index;
 
+// ----------------
+// interfaces
+// ----------------
+interface LinkProps {
+  to: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
+// ------------------------
+// component with interface
+// ------------------------
+const LinkComponent = ({ to, label, icon }: LinkProps) => {
+  return (
+    <li>
+      <NavLink
+        to={to}
+        className={({ isActive }) => {
+          return isActive ? "active" : "";
+        }}
+      >
+        {icon}
+        <span>{label}</span>
+      </NavLink>
+    </li>
+  );
+};
+
+// ----------------
+// main component
+// ----------------
 const SideNav = () => {
   return (
     <Holder>
-      <LogoHolder>
+      <div className="logo-holder">
         <SVG.logo.monotone />
-      </LogoHolder>
+      </div>
 
-      <NavigaionHolder>
-        <NavLink to="/">
-          <SVG.other.home />
-          <span>Home</span>
-        </NavLink>
+      <div className="navigation-holder">
+        <LinkComponent to="/" label="Home" icon={<SVG.other.home />} />
+        <LinkComponent
+          to="/settings"
+          label="Settings"
+          icon={<SVG.other.gear />}
+        />
+        <LinkComponent to="/chat" label="Chat" icon={<SVG.other.chat />} />
+      </div>
 
-        <NavLink to="/settings">
-          <SVG.other.gear />
-          <span>Settings</span>
-        </NavLink>
-
-        <NavLink to="/chat">
-          <SVG.other.chat />
-          <span>Chat</span>
-        </NavLink>
-      </NavigaionHolder>
-
-      <FaqHolder>
-        <Link to="/faq">
-          <SVG.other.info />
-          <span>FAQ</span>
-        </Link>
-      </FaqHolder>
+      <div className="faq-holder">
+        <LinkComponent to="/faq" label="FAQ" icon={<SVG.other.info />} />
+      </div>
     </Holder>
   );
 };
@@ -42,7 +66,6 @@ const SideNav = () => {
 // ----------------
 // STYLED COMPONENT
 // ----------------
-
 const Holder = styled.div`
   margin: 1.4em;
   display: grid;
@@ -53,45 +76,50 @@ const Holder = styled.div`
     margin-right: 1em;
   }
 
-  a {
-    color: ${colors.gray};
-    text-decoration: none;
+  li {
+    list-style: none;
     font-size: 1.6em;
-    margin-left: 1rem;
+    margin-left: 0.5em;
+  }
+
+  a {
+    color: ${colors.white};
+    text-decoration: none;
+    opacity: 0.5;
+
+  }
+
+  .logo-holder {
+    ${fonts.bold}
+    margin: 2.1em 0.3em 0;
+    svg {
+      width: 8em;
+    }
+  }
+
+  .navigation-holder {
     display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
 
-    span {
-      align-self: flex-end;
-    }
+  .faq-holder {
+    margin: auto 0 2.5em;
+  }
 
-    :hover {
-      color: ${colors.white};
-    }
-    :active {
-      color: ${colors.black};
+  .active {
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+    ::before {
+      background-color: ${colors.white};
+      content:'';
+      height: 1.4em;
+      width: 0.4em;
+      border-radius: 0 0.3em 0.3em 0;
+      position: absolute;
+      left: 0;
     }
   }
-  
-`;
-
-const LogoHolder = styled.div`
-  ${fonts.bold}
-  margin: 2.1em 0.3em 0;
-
-  svg {
-    fill: ${colors.white};
-    width: 8em;
-  }
-`;
-
-const NavigaionHolder = styled.nav`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
-`;
-
-const FaqHolder = styled.div`
-  margin: auto 0 2.5em;
 `;
 
 export default SideNav;

@@ -9,6 +9,7 @@ const AppRoot = () => {
   return (
     <Holder>
       <SideNav />
+
       <RoutesHolder>
         <AppRoutes />
       </RoutesHolder>
