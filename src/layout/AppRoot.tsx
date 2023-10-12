@@ -17,6 +17,31 @@ const AppRoot = () => {
   );
 };
 
+// ---------------------------
+// conditional rendering for nav
+// ---------------------------
+
+// const AppRoot = () => {
+//   const { pathname } = useLocation();
+
+//   return (
+//     <>
+//       {pathname == "/login" ? (
+//         <AppRoutes />
+//       ) : (
+//         <Holder>
+//           <SideNav />
+
+//           <RoutesHolder>
+//             <AppRoutes />
+//           </RoutesHolder>
+//         </Holder>
+//       )}
+//     </>
+//   );
+// };
+// ---------------
+
 // ----------------
 // STYLED COMPONENT
 // ----------------

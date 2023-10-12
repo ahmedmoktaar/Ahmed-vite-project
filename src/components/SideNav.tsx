@@ -86,7 +86,11 @@ const Holder = styled.div`
     color: ${colors.white};
     text-decoration: none;
     opacity: 0.5;
-
+  }
+  
+  span {
+    position: relative;
+    bottom: 0.3rem;
   }
 
   .logo-holder {
@@ -112,7 +116,7 @@ const Holder = styled.div`
     transition: opacity 0.3s ease-in;
     ::before {
       background-color: ${colors.white};
-      content:'';
+      content: "";
       height: 1.4em;
       width: 0.4em;
       border-radius: 0 0.3em 0.3em 0;
