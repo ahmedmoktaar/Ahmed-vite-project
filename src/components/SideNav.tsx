@@ -8,9 +8,9 @@ import { NavLink } from "react-router-dom";
 // ----------------
 const { colors, fonts } = index;
 
-// ----------------
+// -----------
 // interfaces
-// ----------------
+// -----------
 interface LinkProps {
   to: string;
   label: string;
