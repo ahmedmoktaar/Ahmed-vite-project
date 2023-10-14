@@ -6,6 +6,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import HandshakeIcon from "@mui/icons-material/Handshake";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const FormSVG = {
   PersonIcon: <PersonIcon />,
@@ -16,6 +17,8 @@ const FormSVG = {
   CalendarMonthIcon: <CalendarMonthIcon />,
   CardMembershipIcon: <CardMembershipIcon />,
   HandshakeIcon: <HandshakeIcon />,
+  Visibility: <Visibility/>,
+  VisibilityOff: <VisibilityOff/>
 };
 
 export default FormSVG;
