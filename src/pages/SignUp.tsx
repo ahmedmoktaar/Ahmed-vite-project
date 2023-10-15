@@ -18,7 +18,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, FieldProps, Form, Formik } from "formik";
 import { Dispatch, SetStateAction, useState } from "react";
 import * as Yup from "yup";
 import FormSVG from "../assets/svg/FormSVG";
@@ -36,7 +36,7 @@ type values = {
   password: string;
   confirmPassword: string;
   accountType: string;
-  termsConditions: string;
+  termsConditions: boolean;
 };
 
 // ------------------------------
@@ -76,51 +76,89 @@ const FormInput = () => {
   // ------------------------------
   // MUI Components
   // ------------------------------
-  const InputComponent = (props) => (
-    <TextField
-      id="outlined-required"
-      label="Required"
-      size="small"
-      {...props}
-    />
-  );
-  const AgeComponent = (props) => (
-    <TextField id="outlined-number" label="Number" type="number" {...props} />
-  );
-
-  const CountryComponent = (props) => {
-    const Countries = [
-      { label: "Egypt" },
-      { label: "Andorra" },
-      { label: "Benin" },
-      { label: "Cameroon" },
-      { label: "Grenada" },
-      { label: "Italy" },
-      { label: "Mauritius" },
-      { label: "Maldives" },
-      { label: "Malawi" },
-      { label: "Mexico" },
-      { label: "Malaysia" },
-      { label: "Mozambique" },
-      { label: "Namibia" },
-      { label: "New Caledoni" },
-      { label: "Niger" },
-      { label: "Norfolk Islan" },
-      { label: "Nigeria" },
-    ];
+  const InputComponent = ({ field, meta }: FieldProps) => {
     return (
-      <Autocomplete
-        disablePortal
-        sx={{ width: 200 }}
-        id="combo-box-demo"
-        options={Countries}
-        renderInput={(params) => (
-          <TextField {...params} {...props} label="Country" />
-        )}
-      />
+      <>
+        <TextField
+          variant="outlined"
+          label="Required"
+          size="small"
+          {...field}
+          className={meta.error && meta.touched ? "error-color" : undefined}
+        />
+        <span className="error-color">
+          {meta.error && meta.touched ? meta.error : null}
+        </span>
+      </>
     );
   };
-  const PasswordComponent = (props) => {
+
+  const AgeComponent = ({ field, meta }: FieldProps) => {
+    return (
+      <>
+        <TextField
+          variant="outlined"
+          size="small"
+          label="Number"
+          type="number"
+          {...field}
+          className={meta.error && meta.touched ? "error-color" : undefined}
+        />
+        <span className="error-color">
+          {meta.error && meta.touched ? meta.error : null}
+        </span>
+      </>
+    );
+  };
+
+  const CountryComponent = ({ field, meta, form }: FieldProps) => {
+    const Countries = [
+      "Egypt",
+      "Andorra",
+      "Benin",
+      "Cameroon",
+      "Grenada",
+      "Italy",
+      "Mauritius",
+      "Maldives",
+      "Malawi",
+      "Mexico",
+      "Malaysia",
+      "Mozambique",
+      "Namibia",
+      "New Caledoni",
+      "Niger",
+      "Norfolk Islan",
+      "Nigeria",
+    ];
+    return (
+      <>
+        <Autocomplete
+          disablePortal
+          sx={{ width: 200, display: "inline-flex" }}
+          options={Countries}
+          value={form.values.country}
+          onChange={(_e, value: string | null) =>
+            form.setFieldValue("country", value)
+          }
+          renderInput={(params) => (
+            <TextField
+              variant="outlined"
+              {...params}
+              label="Country"
+              {...field}
+              className={meta.error && meta.touched ? "error-color" : undefined}
+            />
+          )}
+        />
+        <span className="error-color">
+          {meta.error && meta.touched ? meta.error : null}
+        </span>
+      </>
+    );
+  };
+
+  const PasswordComponent = ({ field, meta }: FieldProps) => {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -131,142 +169,189 @@ const FormInput = () => {
       event.preventDefault();
     };
     return (
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? FormSVG.VisibilityOff : FormSVG.Visibility}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Password"
-          {...props}
-        />
-      </FormControl>
-    );
-  };
-  const AccountTypeComponent = (props) => {
-    return (
-      <FormControl>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          name="radio-buttons-group"
-          {...props}
-        >
-          <FormControlLabel value="Basic" control={<Radio />} label="Basic" />
-          <FormControlLabel value="Gold" control={<Radio />} label="Gold" />
-          <FormControlLabel
-            value="Platinum"
-            control={<Radio />}
-            label="Platinum"
+      <>
+        <FormControl sx={{ width: "25ch" }} variant="outlined" size="small">
+          <InputLabel htmlFor="password">Required</InputLabel>
+          <OutlinedInput
+            id="password"
+            label="Required"
+            size="small"
+            type={showPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? FormSVG.VisibilityOff : FormSVG.Visibility}
+                </IconButton>
+              </InputAdornment>
+            }
+            {...field}
+            className={meta.error && meta.touched ? "error-color" : undefined}
           />
-        </RadioGroup>
-      </FormControl>
+        </FormControl>
+        <span className="error-color">
+          {meta.error && meta.touched ? meta.error : null}
+        </span>
+      </>
     );
   };
-  const TermsConditionsComponent = (props) => {
-    return <Checkbox {...props} />;
+
+  const ConfirmPasswordComponent = ({ field, meta }: FieldProps) => {
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (
+      event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+      event.preventDefault();
+    };
+    return (
+      <>
+        <FormControl sx={{ width: "25ch" }} variant="outlined" size="small">
+          <InputLabel htmlFor="confirmPassword">Required</InputLabel>
+          <OutlinedInput
+            id="confirmPassword"
+            type={showPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? FormSVG.VisibilityOff : FormSVG.Visibility}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Required"
+            {...field}
+            className={meta.error && meta.touched ? "error-color" : undefined}
+            size="small"
+          />
+        </FormControl>
+        <span className="error-color">
+          {meta.error && meta.touched ? meta.error : null}
+        </span>
+      </>
+    );
+  };
+
+  const AccountTypeComponent = ({ field, meta }: FieldProps) => {
+    return (
+      <>
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            {...field}
+            className={meta.error && meta.touched ? "error-color" : undefined}
+          >
+            <FormControlLabel value="Basic" control={<Radio />} label="Basic" />
+            <FormControlLabel value="Gold" control={<Radio />} label="Gold" />
+            <FormControlLabel
+              value="Platinum"
+              control={<Radio />}
+              label="Platinum"
+            />
+          </RadioGroup>
+        </FormControl>
+        <span className="error-color">
+          {meta.error && meta.touched ? meta.error : null}
+        </span>
+      </>
+    );
+  };
+
+  const TermsConditionsComponent = ({ field, meta }: FieldProps) => {
+    return (
+      <>
+        <Checkbox
+          {...field}
+          className={meta.error && meta.touched ? "error-color" : undefined}
+        />
+        <span className="error-color">
+          {meta.error && meta.touched ? meta.error : null}
+        </span>
+      </>
+    );
   };
 
   return (
     <>
       <label htmlFor={Keys.firstName}>{Labels.firstName} </label>
-      <Field id={Keys.firstName} as={InputComponent} name={Keys.firstName} />
-      <ErrorMessage name={Keys.firstName}></ErrorMessage>
+      <Field id={Keys.firstName} name={Keys.firstName}>
+        {(props: FieldProps): React.ReactNode => {
+          return (
+            <>
+              <InputComponent {...props} />
+            </>
+          );
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
-
       <label htmlFor={Keys.lastName}>{Labels.lastName} </label>
-      <Field id={Keys.lastName} as={InputComponent} name={Keys.lastName} />
-      <ErrorMessage name={Keys.lastName}></ErrorMessage>
+      <Field id={Keys.lastName} name={Keys.lastName}>
+        {(props: FieldProps): React.ReactNode => {
+          return <InputComponent {...props} />;
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
-
       <label htmlFor={Keys.age}>{Labels.age} </label>
-      <Field id={Keys.age} as={AgeComponent} name={Keys.age} />
-      <ErrorMessage name={Keys.age}></ErrorMessage>
+      <Field id={Keys.age} name={Keys.age}>
+        {(props: FieldProps): React.ReactNode => {
+          return <AgeComponent {...props} />;
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
-
       <label htmlFor={Keys.email}>{Labels.email} </label>
-      <Field id={Keys.email} as={InputComponent} name={Keys.email} />
-      <ErrorMessage name={Keys.email}></ErrorMessage>
+      <Field id={Keys.email} name={Keys.email}>
+        {(props: FieldProps): React.ReactNode => {
+          return <InputComponent {...props} />;
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
-
       <label htmlFor={Keys.country}>{Labels.country} </label>
-      <Field id={Keys.country} as={CountryComponent} name={Keys.country} />
-      <ErrorMessage name={Keys.country}></ErrorMessage>
+      <Field id={Keys.country} name={Keys.country}>
+        {(props: FieldProps): React.ReactNode => {
+          return <CountryComponent {...props} />;
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
-
       <label htmlFor={Keys.password}>{Labels.password} </label>
-      <Field id={Keys.password} as={PasswordComponent} name={Keys.password} />
-      <ErrorMessage name={Keys.password}></ErrorMessage>
+      <Field id={Keys.password} name={Keys.password}>
+        {(props: FieldProps): React.ReactNode => {
+          return <PasswordComponent {...props} />;
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
-
       <label htmlFor={Keys.confirmPassword}>{Labels.confirmPassword} </label>
-      <Field
-        id={Keys.confirmPassword}
-        as={PasswordComponent}
-        name={Keys.confirmPassword}
-      />
-      <ErrorMessage name={Keys.confirmPassword}></ErrorMessage>
+      <Field id={Keys.confirmPassword} name={Keys.confirmPassword}>
+        {(props: FieldProps): React.ReactNode => {
+          return <ConfirmPasswordComponent {...props} />;
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
-
       <label htmlFor={Keys.accountType}>{Labels.accountType} </label>
-      <Field
-        id={Keys.accountType}
-        as={AccountTypeComponent}
-        name={Keys.accountType}
-      />
-      <ErrorMessage name={Keys.accountType}></ErrorMessage>
+      <Field id={Keys.accountType} name={Keys.accountType}>
+        {(props: FieldProps): React.ReactNode => {
+          return <AccountTypeComponent {...props} />;
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
-
       <label htmlFor={Keys.termsConditions}>{Labels.termsConditions} </label>
-      <Field
-        id={Keys.termsConditions}
-        as={TermsConditionsComponent}
-        name={Keys.termsConditions}
-      />
-      <ErrorMessage name={Keys.termsConditions}></ErrorMessage>
+      <Field id={Keys.termsConditions} name={Keys.termsConditions}>
+        {(props: FieldProps): React.ReactNode => {
+          return <TermsConditionsComponent {...props} />;
+        }}
+      </Field>
       <Divider variant="inset" component="hr" />
     </>
   );
-  // const Container = [];
-
-  // for (const [key, value] of Object.entries(Labels)) {
-  //   Container.push(
-  //     <div key={key}>
-  //       <label htmlFor={key}>{value} </label>
-  //       <Field
-  //         id={key}
-  //         name={key}
-  //         component={
-  //           key === "firstName" || key === "lastName" || key === "email"
-  //             ? InputComponent
-  //             : key === "Age"
-  //             ? AgeComponent
-  //             : key === "password" || key === "confirmPassword"
-  //             ? PasswordComponent
-  //             : key === "country"
-  //             ? CountryComponent
-  //             : key === "accountType"
-  //             ? AccountTypeComponent
-  //             : key === "termsConditions"
-  //             ? TermsConditionsComponent
-  //             : null
-  //         }
-  //       />
-  //       <ErrorMessage name={key}/>
-  //     </div>
-  //   );
-  // }
-  // return Container;
 };
 
 // ------------------------------
@@ -278,7 +363,7 @@ const SignUpResult = (props: { className: string; signUpValues: values }) => {
   const Result = (props: {
     svg?: React.JSX.Element;
     name: string;
-    value: string | number;
+    value: string | number | boolean;
   }) => {
     return (
       <ListItem>
@@ -373,7 +458,7 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
     accountType: "",
-    termsConditions: "",
+    termsConditions: false,
   };
 
   const validationSchema = Yup.object({
@@ -397,7 +482,7 @@ const SignUp = () => {
       .oneOf([Yup.ref("password")], "Passwords must match")
       .required("Required"),
     accountType: Yup.string().required("Required"),
-    termsConditions: Yup.string().required("Required"),
+    termsConditions: Yup.boolean().oneOf([true], "Required"),
   });
 
   // ------------------------------
@@ -412,9 +497,6 @@ const SignUp = () => {
     return setSignUpValues(values);
   };
 
-  // ------------------------------
-  // JSX
-  // ------------------------------
   return (
     <Holder>
       <Formik
@@ -446,6 +528,12 @@ const Holder = styled.div`
   height: 100%;
   hr {
     margin: 1em;
+  }
+  .error-color {
+    color: red;
+    fieldset {
+      border-color: red;
+    }
   }
 `;
 
