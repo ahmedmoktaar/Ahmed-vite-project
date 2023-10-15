@@ -42,22 +42,24 @@ const LinkComponent = ({ to, label, icon }: LinkProps) => {
 const SideNav = () => {
   return (
     <Holder>
-      <div className="logo-holder">
-        <SVG.logo.monotone />
-      </div>
+      <div className="fixed">
+        <div className="logo-holder">
+          <SVG.logo.monotone />
+        </div>
 
-      <div className="navigation-holder">
-        <LinkComponent to="/" label="Home" icon={<SVG.other.home />} />
-        <LinkComponent
-          to="/settings"
-          label="Settings"
-          icon={<SVG.other.gear />}
-        />
-        <LinkComponent to="/chat" label="Chat" icon={<SVG.other.chat />} />
-      </div>
+        <div className="navigation-holder">
+          <LinkComponent to="/" label="Home" icon={<SVG.other.home />} />
+          <LinkComponent
+            to="/settings"
+            label="Settings"
+            icon={<SVG.other.gear />}
+          />
+          <LinkComponent to="/chat" label="Chat" icon={<SVG.other.chat />} />
+        </div>
 
-      <div className="faq-holder">
-        <LinkComponent to="/faq" label="FAQ" icon={<SVG.other.info />} />
+        <div className="faq-holder">
+          <LinkComponent to="/faq" label="FAQ" icon={<SVG.other.info />} />
+        </div>
       </div>
     </Holder>
   );
@@ -67,9 +69,10 @@ const SideNav = () => {
 // STYLED COMPONENT
 // ----------------
 const Holder = styled.div`
-  margin: 1.4em;
-  display: grid;
-
+  .fixed {
+    position: fixed;
+    margin: 1.4em;
+ 
   svg {
     fill: ${colors.white};
     width: 1.3em;
@@ -87,7 +90,7 @@ const Holder = styled.div`
     text-decoration: none;
     opacity: 0.5;
   }
-  
+
   span {
     position: relative;
     bottom: 0.3rem;
@@ -95,7 +98,7 @@ const Holder = styled.div`
 
   .logo-holder {
     ${fonts.bold}
-    margin: 2.1em 0.3em 0;
+    margin: 2.1em 0.3em 7.5em;
     svg {
       width: 8em;
     }
@@ -104,11 +107,11 @@ const Holder = styled.div`
   .navigation-holder {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 2.2em;
   }
 
   .faq-holder {
-    margin: auto 0 2.5em;
+    margin: 7.5em 0 2.5em;
   }
 
   .active {
@@ -123,7 +126,7 @@ const Holder = styled.div`
       position: absolute;
       left: 0;
     }
-  }
-`;
+  } }
+`
 
 export default SideNav;

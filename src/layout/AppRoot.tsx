@@ -49,7 +49,7 @@ const Holder = styled.div`
   height: 100vh;
   ${fonts.thin};
   display: grid;
-  grid-template-columns: 19em auto;
+  grid-template-columns: 18em auto;
 `;
 
 const RoutesHolder = styled.div`

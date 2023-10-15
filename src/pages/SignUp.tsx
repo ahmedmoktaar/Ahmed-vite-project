@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import {
   Autocomplete,
   Avatar,
+  Button,
   Checkbox,
   Divider,
   FormControl,
@@ -30,9 +31,9 @@ import React from "react";
 type values = {
   firstName: string;
   lastName: string;
-  age: number;
+  age?: number | undefined;
   email: string;
-  country: string;
+  country: string | undefined;
   password: string;
   confirmPassword: string;
   accountType: string;
@@ -45,13 +46,13 @@ type values = {
 const Labels = {
   firstName: "First Name: ",
   lastName: "Last Name: ",
-  age: "age: ",
+  age: "Age: ",
   email: "Email: ",
   country: "Country: ",
   password: "Password: ",
   confirmPassword: "Confirm Password: ",
   accountType: "Account Type: ",
-  termsConditions: "Terms and Conditions: ",
+  termsConditions: "Agree to Terms and Conditions: ",
 };
 
 // ------------------------------
@@ -72,42 +73,46 @@ const Keys = {
 // ------------------------------
 // Sign Up input Components
 // ------------------------------
-const FormInput = () => {
+const SignUpInput = () => {
   // ------------------------------
   // MUI Components
   // ------------------------------
   const InputComponent = ({ field, meta }: FieldProps) => {
     return (
-      <>
+      <div className="center-error">
         <TextField
           variant="outlined"
-          label="Required"
+          label="Required*"
           size="small"
           {...field}
-          className={meta.error && meta.touched ? "error-color" : undefined}
+          className={
+            meta.error && meta.touched ? "error-color-border" : undefined
+          }
         />
-        <span className="error-color">
+        <span className="error-color-meessage">
           {meta.error && meta.touched ? meta.error : null}
         </span>
-      </>
+      </div>
     );
   };
 
   const AgeComponent = ({ field, meta }: FieldProps) => {
     return (
-      <>
+      <div className="center-error">
         <TextField
           variant="outlined"
           size="small"
-          label="Number"
+          label="Enter Your Age"
           type="number"
           {...field}
-          className={meta.error && meta.touched ? "error-color" : undefined}
+          className={
+            meta.error && meta.touched ? "error-color-border" : undefined
+          }
         />
-        <span className="error-color">
+        <span className="error-color-meessage">
           {meta.error && meta.touched ? meta.error : null}
         </span>
-      </>
+      </div>
     );
   };
 
@@ -132,7 +137,7 @@ const FormInput = () => {
       "Nigeria",
     ];
     return (
-      <>
+      <div className="center-error">
         <Autocomplete
           disablePortal
           sx={{ width: 200, display: "inline-flex" }}
@@ -145,16 +150,18 @@ const FormInput = () => {
             <TextField
               variant="outlined"
               {...params}
-              label="Country"
+              label="Required*"
               {...field}
-              className={meta.error && meta.touched ? "error-color" : undefined}
+              className={
+                meta.error && meta.touched ? "error-color-border" : undefined
+              }
             />
           )}
         />
-        <span className="error-color">
+        <span className="error-color-meessage">
           {meta.error && meta.touched ? meta.error : null}
         </span>
-      </>
+      </div>
     );
   };
 
@@ -169,12 +176,12 @@ const FormInput = () => {
       event.preventDefault();
     };
     return (
-      <>
+      <div className="center-error">
         <FormControl sx={{ width: "25ch" }} variant="outlined" size="small">
-          <InputLabel htmlFor="password">Required</InputLabel>
+          <InputLabel htmlFor="password">Required*</InputLabel>
           <OutlinedInput
             id="password"
-            label="Required"
+            label="Required*"
             size="small"
             type={showPassword ? "text" : "password"}
             endAdornment={
@@ -190,13 +197,15 @@ const FormInput = () => {
               </InputAdornment>
             }
             {...field}
-            className={meta.error && meta.touched ? "error-color" : undefined}
+            className={
+              meta.error && meta.touched ? "error-color-border" : undefined
+            }
           />
         </FormControl>
-        <span className="error-color">
+        <span className="error-color-meessage">
           {meta.error && meta.touched ? meta.error : null}
         </span>
-      </>
+      </div>
     );
   };
 
@@ -211,9 +220,9 @@ const FormInput = () => {
       event.preventDefault();
     };
     return (
-      <>
+      <div className="center-error">
         <FormControl sx={{ width: "25ch" }} variant="outlined" size="small">
-          <InputLabel htmlFor="confirmPassword">Required</InputLabel>
+          <InputLabel htmlFor="confirmPassword">Required*</InputLabel>
           <OutlinedInput
             id="confirmPassword"
             type={showPassword ? "text" : "password"}
@@ -229,27 +238,29 @@ const FormInput = () => {
                 </IconButton>
               </InputAdornment>
             }
-            label="Required"
+            label="Required*"
             {...field}
-            className={meta.error && meta.touched ? "error-color" : undefined}
+            className={
+              meta.error && meta.touched ? "error-color-border" : undefined
+            }
             size="small"
           />
         </FormControl>
-        <span className="error-color">
+        <span className="error-color-meessage">
           {meta.error && meta.touched ? meta.error : null}
         </span>
-      </>
+      </div>
     );
   };
 
   const AccountTypeComponent = ({ field, meta }: FieldProps) => {
     return (
-      <>
+      <div className="center-error">
         <FormControl>
           <RadioGroup
+            sx={{ flexDirection: "row", marginRight: "2em" }}
             aria-labelledby="demo-radio-buttons-group-label"
             {...field}
-            className={meta.error && meta.touched ? "error-color" : undefined}
           >
             <FormControlLabel value="Basic" control={<Radio />} label="Basic" />
             <FormControlLabel value="Gold" control={<Radio />} label="Gold" />
@@ -260,24 +271,26 @@ const FormInput = () => {
             />
           </RadioGroup>
         </FormControl>
-        <span className="error-color">
+        <span className="error-color-meessage">
           {meta.error && meta.touched ? meta.error : null}
         </span>
-      </>
+      </div>
     );
   };
 
   const TermsConditionsComponent = ({ field, meta }: FieldProps) => {
     return (
-      <>
+      <div className="center-error">
         <Checkbox
           {...field}
-          className={meta.error && meta.touched ? "error-color" : undefined}
+          className={
+            meta.error && meta.touched ? "error-color-border" : undefined
+          }
         />
-        <span className="error-color">
+        <span className="error-color-meessage">
           {meta.error && meta.touched ? meta.error : null}
         </span>
-      </>
+      </div>
     );
   };
 
@@ -293,7 +306,7 @@ const FormInput = () => {
           );
         }}
       </Field>
-      <Divider variant="inset" component="hr" />
+      <Divider variant="inset" component="hr" sx={{ opacity: "0%" }} />
       <label htmlFor={Keys.lastName}>{Labels.lastName} </label>
       <Field id={Keys.lastName} name={Keys.lastName}>
         {(props: FieldProps): React.ReactNode => {
@@ -328,7 +341,7 @@ const FormInput = () => {
           return <PasswordComponent {...props} />;
         }}
       </Field>
-      <Divider variant="inset" component="hr" />
+      <Divider variant="inset" component="hr" sx={{ opacity: "0%" }} />
       <label htmlFor={Keys.confirmPassword}>{Labels.confirmPassword} </label>
       <Field id={Keys.confirmPassword} name={Keys.confirmPassword}>
         {(props: FieldProps): React.ReactNode => {
@@ -363,7 +376,7 @@ const SignUpResult = (props: { className: string; signUpValues: values }) => {
   const Result = (props: {
     svg?: React.JSX.Element;
     name: string;
-    value: string | number | boolean;
+    value: string | number | boolean | undefined;
   }) => {
     return (
       <ListItem>
@@ -381,9 +394,7 @@ const SignUpResult = (props: { className: string; signUpValues: values }) => {
     <List
       className={className}
       sx={{
-        width: "100%",
         maxWidth: 360,
-        bgcolor: "background.paper",
       }}
     >
       <Result
@@ -452,9 +463,9 @@ const SignUp = () => {
   const initialValues: values = {
     firstName: "",
     lastName: "",
-    age: 0,
+    age: undefined,
     email: "",
-    country: "",
+    country: undefined,
     password: "",
     confirmPassword: "",
     accountType: "",
@@ -463,12 +474,11 @@ const SignUp = () => {
 
   const validationSchema = Yup.object({
     firstName: Yup.string().required("Required"),
-    lastName: Yup.string(),
+    lastName: Yup.string().required("Required"),
     age: Yup.number()
       .typeError("Age must be a number")
       .min(16, "Age must be over 16")
-      .max(125, "Invalid age")
-      .required("Required"),
+      .max(125, "Invalid age"),
     email: Yup.string().email("Invalid email").required("Required"),
     country: Yup.string().required("Required"),
     password: Yup.string()
@@ -500,21 +510,22 @@ const SignUp = () => {
   return (
     <Holder>
       <Formik
-        className="sign-up-form"
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        <Form>
-          <FormInput />
-          <button type="submit">Submit</button>
+        <Form className="sign-up-form">
+          <SignUpInput />
+          <Button variant="contained" type="submit" sx={{ marginRight: "1em" }}>
+            Submit
+          </Button>
+          <Button variant="contained" type="reset" color="warning">
+            Reset
+          </Button>
         </Form>
       </Formik>
 
-      <SignUpResult
-        className="sign-up-result"
-        signUpValues={signUpValues}
-      ></SignUpResult>
+      <SignUpResult className="sign-up-result" signUpValues={signUpValues} />
     </Holder>
   );
 };
@@ -526,14 +537,31 @@ const Holder = styled.div`
   display: grid;
   grid-template-columns: 30em auto;
   height: 100%;
+  margin: 2em;
   hr {
-    margin: 1em;
+    margin: 0.8em;
   }
-  .error-color {
-    color: red;
+  .sign-up-form {
+    label {
+      display: inline-block;
+      margin-bottom: 0.8em;
+    }
+  }
+
+  .center-error {
+    display: flex;
+    align-items: center;
+  }
+
+  .error-color-border {
     fieldset {
       border-color: red;
     }
+  }
+  .error-color-meessage {
+    color: red;
+    display: inline-block;
+    margin: 0.5em;
   }
 `;
 

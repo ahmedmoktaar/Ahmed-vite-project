@@ -17,4 +17,7 @@ export const muiTheme = createTheme({
     white: colorLevels("#fff"),
     gray: colorLevels("#A4A5AA"),
   },
+  typography:{
+    fontFamily: '"Circular Std Book", Helvetica, Arial, sans-serif'
+  }
 });
