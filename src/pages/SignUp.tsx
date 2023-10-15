@@ -18,7 +18,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import {  ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Dispatch, SetStateAction, useState } from "react";
 import * as Yup from "yup";
 import FormSVG from "../assets/svg/FormSVG";
@@ -30,7 +30,7 @@ import React from "react";
 type values = {
   firstName: string;
   lastName: string;
-  Age: number;
+  age: number;
   email: string;
   country: string;
   password: string;
@@ -45,7 +45,7 @@ type values = {
 const Labels = {
   firstName: "First Name: ",
   lastName: "Last Name: ",
-  Age: "Age: ",
+  age: "age: ",
   email: "Email: ",
   country: "Country: ",
   password: "Password: ",
@@ -55,19 +55,72 @@ const Labels = {
 };
 
 // ------------------------------
+// keys of labels
+// ------------------------------
+const Keys = {
+  firstName: "firstName",
+  lastName: "lastName",
+  age: "age",
+  email: "email",
+  country: "country",
+  password: "password",
+  confirmPassword: "confirmPassword",
+  accountType: "accountType",
+  termsConditions: "termsConditions",
+};
+
+// ------------------------------
 // Sign Up input Components
 // ------------------------------
 const FormInput = () => {
   // ------------------------------
   // MUI Components
   // ------------------------------
-  const InputComponent = () => (
-    <TextField id="outlined-required" label="Required" size="small" />
+  const InputComponent = (props) => (
+    <TextField
+      id="outlined-required"
+      label="Required"
+      size="small"
+      {...props}
+    />
   );
-  const AgeComponent = () => (
-    <TextField id="outlined-number" label="Number" type="number" />
+  const AgeComponent = (props) => (
+    <TextField id="outlined-number" label="Number" type="number" {...props} />
   );
-  const PasswordComponent = () => {
+
+  const CountryComponent = (props) => {
+    const Countries = [
+      { label: "Egypt" },
+      { label: "Andorra" },
+      { label: "Benin" },
+      { label: "Cameroon" },
+      { label: "Grenada" },
+      { label: "Italy" },
+      { label: "Mauritius" },
+      { label: "Maldives" },
+      { label: "Malawi" },
+      { label: "Mexico" },
+      { label: "Malaysia" },
+      { label: "Mozambique" },
+      { label: "Namibia" },
+      { label: "New Caledoni" },
+      { label: "Niger" },
+      { label: "Norfolk Islan" },
+      { label: "Nigeria" },
+    ];
+    return (
+      <Autocomplete
+        disablePortal
+        sx={{ width: 200 }}
+        id="combo-box-demo"
+        options={Countries}
+        renderInput={(params) => (
+          <TextField {...params} {...props} label="Country" />
+        )}
+      />
+    );
+  };
+  const PasswordComponent = (props) => {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -96,79 +149,124 @@ const FormInput = () => {
             </InputAdornment>
           }
           label="Password"
+          {...props}
         />
       </FormControl>
     );
   };
-  const CountryComponent = () => {
-    const Countries = [
-      { label: "Egypt" },
-      { label: "Andorra" },
-      { label: "Benin" },
-      { label: "Cameroon" },
-      { label: "Grenada" },
-      { label: "Italy" },
-    ];
+  const AccountTypeComponent = (props) => {
     return (
-      <Autocomplete
-        disablePortal
-        sx={{ width: 200 }}
-        id="combo-box-demo"
-        options={Countries}
-        renderInput={(params) => <TextField {...params} label="Country" />}
-      />
+      <FormControl>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          name="radio-buttons-group"
+          {...props}
+        >
+          <FormControlLabel value="Basic" control={<Radio />} label="Basic" />
+          <FormControlLabel value="Gold" control={<Radio />} label="Gold" />
+          <FormControlLabel
+            value="Platinum"
+            control={<Radio />}
+            label="Platinum"
+          />
+        </RadioGroup>
+      </FormControl>
     );
   };
-const AccountTypeComponent = () => {
-  return (
-    <FormControl>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        name="radio-buttons-group"
-      >
-        <FormControlLabel value="Basic" control={<Radio />} label="Basic" />
-        <FormControlLabel value="Gold" control={<Radio />} label="Gold" />
-        <FormControlLabel value="Platinum" control={<Radio />} label="Platinum" />
-      </RadioGroup>
-    </FormControl>
-  );
-}
-const TermsConditionsComponent = () => {
-  return (
-    <Checkbox />
+  const TermsConditionsComponent = (props) => {
+    return <Checkbox {...props} />;
+  };
 
-  );
-}
-  const Container = [];
+  return (
+    <>
+      <label htmlFor={Keys.firstName}>{Labels.firstName} </label>
+      <Field id={Keys.firstName} as={InputComponent} name={Keys.firstName} />
+      <ErrorMessage name={Keys.firstName}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
 
-  for (const [key, value] of Object.entries(Labels)) {
-    Container.push(
-      <div key={key}>
-        <label htmlFor={key}>{value} </label>
-        <Field
-          id={key}
-          name={key}
-          component={
-            key === "firstName" || key === "lastName" || key === "email"
-              ? InputComponent
-              : key === "Age"
-              ? AgeComponent
-              : key === "password" || key === "confirmPassword"
-              ? PasswordComponent
-              : key === "country"
-              ? CountryComponent
-              : key === "accountType"
-              ? AccountTypeComponent
-              : key === "termsConditions"
-              ? TermsConditionsComponent
-              : null
-          }
-        />
-        <ErrorMessage name={key}/>
-      </div>
-    );
-  }
-  return Container;
+      <label htmlFor={Keys.lastName}>{Labels.lastName} </label>
+      <Field id={Keys.lastName} as={InputComponent} name={Keys.lastName} />
+      <ErrorMessage name={Keys.lastName}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
+
+      <label htmlFor={Keys.age}>{Labels.age} </label>
+      <Field id={Keys.age} as={AgeComponent} name={Keys.age} />
+      <ErrorMessage name={Keys.age}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
+
+      <label htmlFor={Keys.email}>{Labels.email} </label>
+      <Field id={Keys.email} as={InputComponent} name={Keys.email} />
+      <ErrorMessage name={Keys.email}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
+
+      <label htmlFor={Keys.country}>{Labels.country} </label>
+      <Field id={Keys.country} as={CountryComponent} name={Keys.country} />
+      <ErrorMessage name={Keys.country}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
+
+      <label htmlFor={Keys.password}>{Labels.password} </label>
+      <Field id={Keys.password} as={PasswordComponent} name={Keys.password} />
+      <ErrorMessage name={Keys.password}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
+
+      <label htmlFor={Keys.confirmPassword}>{Labels.confirmPassword} </label>
+      <Field
+        id={Keys.confirmPassword}
+        as={PasswordComponent}
+        name={Keys.confirmPassword}
+      />
+      <ErrorMessage name={Keys.confirmPassword}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
+
+      <label htmlFor={Keys.accountType}>{Labels.accountType} </label>
+      <Field
+        id={Keys.accountType}
+        as={AccountTypeComponent}
+        name={Keys.accountType}
+      />
+      <ErrorMessage name={Keys.accountType}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
+
+      <label htmlFor={Keys.termsConditions}>{Labels.termsConditions} </label>
+      <Field
+        id={Keys.termsConditions}
+        as={TermsConditionsComponent}
+        name={Keys.termsConditions}
+      />
+      <ErrorMessage name={Keys.termsConditions}></ErrorMessage>
+      <Divider variant="inset" component="hr" />
+    </>
+  );
+  // const Container = [];
+
+  // for (const [key, value] of Object.entries(Labels)) {
+  //   Container.push(
+  //     <div key={key}>
+  //       <label htmlFor={key}>{value} </label>
+  //       <Field
+  //         id={key}
+  //         name={key}
+  //         component={
+  //           key === "firstName" || key === "lastName" || key === "email"
+  //             ? InputComponent
+  //             : key === "Age"
+  //             ? AgeComponent
+  //             : key === "password" || key === "confirmPassword"
+  //             ? PasswordComponent
+  //             : key === "country"
+  //             ? CountryComponent
+  //             : key === "accountType"
+  //             ? AccountTypeComponent
+  //             : key === "termsConditions"
+  //             ? TermsConditionsComponent
+  //             : null
+  //         }
+  //       />
+  //       <ErrorMessage name={key}/>
+  //     </div>
+  //   );
+  // }
+  // return Container;
 };
 
 // ------------------------------
@@ -213,8 +311,8 @@ const SignUpResult = (props: { className: string; signUpValues: values }) => {
 
       <Result
         svg={FormSVG.CakeIcon}
-        name={Labels.Age}
-        value={signUpValues.Age}
+        name={Labels.age}
+        value={signUpValues.age}
       />
       <Divider variant="inset" component="li" />
 
@@ -269,7 +367,7 @@ const SignUp = () => {
   const initialValues: values = {
     firstName: "",
     lastName: "",
-    Age: 0,
+    age: 0,
     email: "",
     country: "",
     password: "",
@@ -281,7 +379,7 @@ const SignUp = () => {
   const validationSchema = Yup.object({
     firstName: Yup.string().required("Required"),
     lastName: Yup.string(),
-    Age: Yup.number()
+    age: Yup.number()
       .typeError("Age must be a number")
       .min(16, "Age must be over 16")
       .max(125, "Invalid age")
@@ -324,9 +422,9 @@ const SignUp = () => {
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
-      > 
+      >
         <Form>
-          <FormInput  />
+          <FormInput />
           <button type="submit">Submit</button>
         </Form>
       </Formik>
@@ -346,6 +444,9 @@ const Holder = styled.div`
   display: grid;
   grid-template-columns: 30em auto;
   height: 100%;
+  hr {
+    margin: 1em;
+  }
 `;
 
 export default SignUp;
