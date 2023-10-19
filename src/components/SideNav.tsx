@@ -124,7 +124,7 @@ const Holder = styled.div`
       width: 0.4em;
       border-radius: 0 0.3em 0.3em 0;
       position: absolute;
-      left: 0;
+      left: -0.9em;
     }
   } }
 `
