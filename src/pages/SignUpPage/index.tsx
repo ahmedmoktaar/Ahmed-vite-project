@@ -1,10 +1,23 @@
 import styled from "@emotion/styled";
-import FormSignUP from "./FormSignUp";
+import FormSignUP, { FormValues } from "./FormSignUp";
+import { useState } from "react";
+import ResultSignUp from "./ResultSignUp";
 
-const index = () => {
+const Index: React.FC = () => {
+  const [values, setValues] = useState<FormValues | null>(null);
+
+  const handleSubmit = (values: FormValues) => {
+    return setValues(values);
+  };
+
+  const handleReset = () => {
+    return setValues(null);
+  };
+
   return (
     <Holder>
-      <FormSignUP />
+      <FormSignUP onSubmit={handleSubmit} onReset={handleReset} />
+      <ResultSignUp values={values} />
     </Holder>
   );
 };
@@ -14,12 +27,10 @@ const index = () => {
 // ------------------------------
 const Holder = styled.div`
   display: grid;
-  grid-template-columns: 30em auto;
+  grid-template-columns: 20em auto;
   height: 100%;
   margin: 2em;
-  hr {
-    margin: 0.8em;
-  }
+  gap: 5em;
 `;
 
-export default index;
+export default Index;

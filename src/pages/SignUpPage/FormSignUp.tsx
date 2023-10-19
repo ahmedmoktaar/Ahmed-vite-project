@@ -16,12 +16,17 @@ interface FormValues {
   lastName: string;
   age: string;
   email: string;
-  country: string | undefined;
+  country: string;
   password: string;
   confirmPassword: string;
   accountType: string;
   termsConditions: boolean;
 }
+
+type Props = {
+  onSubmit: (values: FormValues) => void;
+  onReset: () => void;
+};
 
 // ------------------------------
 // Name attribute for components
@@ -50,13 +55,13 @@ const formsLabel = {
   [formsName.password]: "Password",
   [formsName.confirmPassword]: "Confirm Password",
   [formsName.accountType]: "Account Type",
-  [formsName.termsConditions]: "I Agree to Terms and Conditions",
+  [formsName.termsConditions]: "I agree to the terms and conditions",
 };
 
 // ------------------------------
 // Main Component
 // ------------------------------
-const FormSignUp = () => {
+const FormSignUp: React.FC<Props> = ({ onSubmit, onReset }) => {
   // ------------------------------
   // Formik component Props
   // ------------------------------
@@ -65,7 +70,7 @@ const FormSignUp = () => {
     lastName: "",
     age: "",
     email: "",
-    country: undefined,
+    country: "",
     password: "",
     confirmPassword: "",
     accountType: "",
@@ -95,13 +100,9 @@ const FormSignUp = () => {
     termsConditions: Yup.boolean().oneOf([true], "Required"),
   });
 
-  const onSubmit = (values: FormValues) => {
-    return console.log(values);
-  };
-
   return (
     <Holder>
-      <Formik 
+      <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
@@ -152,13 +153,19 @@ const FormSignUp = () => {
             id={formsName.accountType}
             name={formsName.accountType}
           />
-
-          <Button variant="contained" type="submit" sx={{ marginRight: "1em" }}>
-            Submit
-          </Button>
-          <Button variant="contained" type="reset" color="warning">
-            Reset
-          </Button>
+          <div className="button-group">
+            <Button variant="contained" type="submit">
+              Submit
+            </Button>
+            <Button
+              variant="contained"
+              type="reset"
+              color="warning"
+              onClick={() => onReset()}
+            >
+              Reset
+            </Button>
+          </div>
         </Form>
       </Formik>
     </Holder>
@@ -169,11 +176,17 @@ const FormSignUp = () => {
 // Styled Component
 // ------------------------------
 const Holder = styled.div`
-  .forms-wrapper{
+  .forms-wrapper {
     display: flex;
     flex-direction: column;
     gap: 1em;
   }
+  .button-group {
+    display: flex;
+    gap: 2em;
+    justify-content: center;
+  }
 `;
 
 export default FormSignUp;
+export type { FormValues };

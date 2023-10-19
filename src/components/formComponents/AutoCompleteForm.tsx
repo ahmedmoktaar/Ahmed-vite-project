@@ -12,11 +12,10 @@ const AutoCompleteForm = ({ name, ...props }: TextFieldProps) => {
   return (
     <Autocomplete
       disablePortal
-      sx={{ width: 200, display: "inline-flex" }}
       options={countries}
       onChange={(_e, value) => form.setValue(value?.value)}
       isOptionEqualToValue={(option, value) => option.id === value.id}
-      value={field.value ? field.value : null}
+      value={field.value ? field.value : ''}
       renderInput={(params) => (
         <TextField
           variant="outlined"
