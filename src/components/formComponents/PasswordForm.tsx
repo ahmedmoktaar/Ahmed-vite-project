@@ -23,7 +23,9 @@ const PasswordForm = (props: OutlinedInputProps) => {
 
   return (
     <FormControl variant="outlined" size="small">
-      <InputLabel htmlFor={props.name}>{props.label}</InputLabel>
+      <InputLabel htmlFor={props.name} error={!!meta.error && meta.touched}>
+        {props.label}
+      </InputLabel>
       <OutlinedInput
         type={showPassword ? "text" : "password"}
         endAdornment={

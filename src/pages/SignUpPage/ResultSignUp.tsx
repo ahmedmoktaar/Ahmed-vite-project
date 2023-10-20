@@ -8,16 +8,9 @@ import {
 } from "@mui/material";
 
 import FormSVG from "../../assets/svg/FormSVG";
-import React from "react";
-import { FormValues } from "./FormSignUp";
+import React, { useContext } from "react";
 import styled from "@emotion/styled";
-
-// ------------------------------
-// Declartion type for Props
-// ------------------------------
-type MainComponentProps = {
-  values: FormValues | null;
-};
+import { ContextSignUp } from ".";
 
 type HelperComponentProps = {
   svg?: React.JSX.Element;
@@ -27,7 +20,8 @@ type HelperComponentProps = {
 // ------------------------------
 // Sign Up Result Component
 // ------------------------------
-const ResultSignUp: React.FC<MainComponentProps> = ({ values }) => {
+const ResultSignUp: React.FC = () => {
+  const values = useContext(ContextSignUp);
   if (!values) return null;
 
   const Result: React.FC<HelperComponentProps> = (props) => {
